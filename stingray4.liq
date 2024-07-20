@@ -59,7 +59,7 @@ e = %ffmpeg(
     height=720,
     b="2800k",
     g=50,
-    preset="fast"
+    preset="fast",
     flags="+global_header"
   ),
 
@@ -70,12 +70,12 @@ e = %ffmpeg(
     codec="aac",
     ac=2,
     ar=44100,
-    b="192k"
+    b="192k",
     flags="+global_header"
   ),
 
   # -f flv
-  format="flv"
+  format="flv",
   # -flvflags no_duration_filesize
   flvflags="no_duration_filesize"
 )
