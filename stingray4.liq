@@ -33,14 +33,15 @@ testcard_item = mksafe(id="safe_testcard", video.testsrc.smptehdbars_ebustereo(i
 
 # Stingray Naturescape; although I consider it quite stable,
 # they do cue points for ad injection so it gets messy at times
-# hence why I let it self_sync.
+# ~~hence why I let it self_sync.~~
+# above line has been nullified due to the way Liquidsoap 2.3.x works
 u = string.trim(file.contents("consts/naturescape-lotus-link"))
 
 # stacked mksafe
 i = fallback(id="safe_stingray", track_sensitive=false, [
   input.ffmpeg(
     id="stingray_lotus",
-    self_sync=true,
+    self_sync=false,
     int_args=[("icy", 0)],
     u
   ),
