@@ -3,7 +3,7 @@
 log.stdout.set(true)
 log.file.set(false)
 
-# //// highest verbosity
+############### highest verbosity setup ###############
 ### set shebang to below
 #!/usr/bin/liquidsoap --debug --debug-errors --debug-levels
 
@@ -15,10 +15,7 @@ log.file.set(false)
 #settings.log.file.path := "/opt/liquidsoap/logs/st4_script.log"
 
 #settings.ffmpeg.log.verbosity := "debug"
-# end block \\\\
-
-# use locally compiled ffmpeg (hopefully)
-settings.protocol.ffmpeg.path := "/usr/local/bin/ffmpeg"
+############### highest verbosity setup ###############
 
 # 2ch @ 44.1 kHz
 settings.frame.audio.channels := 2
@@ -32,10 +29,11 @@ settings.frame.video.framerate := 25
 # include video.testsrc.smptehdbars_ebustereo
 %include "include/testsrc.liq"
 
-tcard = mksafe(id="safe_testcard", video.testsrc.smptehdbars_ebustereo(id="testcard"))
+testcard_item = mksafe(id="safe_testcard", video.testsrc.smptehdbars_ebustereo(id="testcard"))
 
 # Stingray Naturescape; although I consider it quite stable,
-# their intervals do get messy at times so I let it self_sync.
+# they do cue points for ad injection so it gets messy at times
+# hence why I let it self_sync.
 u = string.trim(file.contents("consts/naturescape-lotus-link"))
 
 # stacked mksafe
@@ -46,12 +44,13 @@ i = fallback(id="safe_stingray", track_sensitive=false, [
     int_args=[("icy", 0)],
     u
   ),
-  tcard
+  testcard_item
 ])
 
 # Spawn an ffmpeg encoder instance
 e = %ffmpeg(
-  # -c:v libx264 -b:v 2800k -preset fast -g:v 50 -flags:v +global_header
+  # not sure if -r is correct here, maybe it is -vframes?
+  # -c:v libx264 -r 25 -s 1280x720 -b:v 2800k -preset fast -g 50 -flags:v +global_header
   %video(
     codec="libx264",
     framerate=25,
