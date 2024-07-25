@@ -16,20 +16,16 @@ def video.testsrc.smptehdbars_ebustereo(
   # EBU Tech 3304 spec for Stereo identification tone inherits the R49-1999 spec:
   #   - Constant 1 kHz tone on right channel
   #   - 1 kHz tone in 2.75 second intervals with a gap of 250 milliseconds (totaling the interval to 3 seconds) on the left channel
-  #
-  # Normally, one could enforce the channel setup to 2 mono to 1 stereo using  `channelmap=channel_layout=` filter on every output 
-  # but liquidsoap doesn't like that, so we just let it run without those as `amerge` uses the amount of channels it gets to map
-  # the output if you don't map them yourself.
-  src_audio = "sine=frequency=1000:duration=2.75,apad=pad_dur=0.25,aloop=loop=-1:size=3*#{settings.frame.audio.samplerate()}[l]; \
-               sine=frequency=1000[r]; \
-               [l][r]amerge#{duration_audio}"
+  src_audio = "sine=frequency=1000:duration=2.75,apad=pad_dur=0.25,aloop=loop=-1:size=3*#{settings.frame.audio.samplerate()},channelmap=channel_layout=mono[l]; \
+               sine=frequency=1000,channelmap=channel_layout=mono[r]; \
+               [l][r]join=inputs=2:channel_layout=stereo:map=0.0-FL|1.0-FR#{duration_audio}"
 
 
-  v = video.testsrc.ffmpeg(max_buffer=max_buffer, duration=duration, pattern="smptehdbars")
+  v = video.testsrc.ffmpeg(id="video.testsrc.smptehdbars_ebustereo", max_buffer=max_buffer, duration=duration, pattern="smptehdbars")
 
-  # Normally (again), one would use `-filter_complex` so that ffmpeg would directly use lavfi. Liquidsoap didn't like that either.
-  # No harm in not using that, I think.
-  a = (input.ffmpeg(max_buffer=max_buffer, format="lavfi", src_audio) :
+  # Generally, one would use `-filter_complex` so that ffmpeg would directly use lavfi. Liquidsoap didn't like that.
+  # No harm not using that, I think.
+  a = (input.ffmpeg(id="video.testsrc.smptehdbars_ebustereo", max_buffer=max_buffer, format="lavfi", src_audio) :
     source(audio=pcm(stereo))
   )
 

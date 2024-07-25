@@ -17,19 +17,7 @@ log.file.set(false)
 #settings.ffmpeg.log.verbosity := "debug"
 ############### highest verbosity setup ###############
 
-# 2ch @ 44.1 kHz
-settings.frame.audio.channels := 2
-settings.frame.audio.samplerate := 44100
-
-# 720p25
-settings.frame.video.width := 1280
-settings.frame.video.height := 720
-settings.frame.video.framerate := 25
-
-# include video.testsrc.smptehdbars_ebustereo
-%include "include/testsrc.liq"
-
-testcard_item = mksafe(id="safe_testcard", video.testsrc.smptehdbars_ebustereo(id="testcard"))
+%include "include/stream_base.liq"
 
 # Stingray Naturescape; although I consider it quite stable,
 # they do cue points for ad injection so it gets messy at times
@@ -42,43 +30,12 @@ i = fallback(id="safe_stingray", track_sensitive=false, [
   input.ffmpeg(
     id="stingray_lotus",
     self_sync=false,
+    max_buffer=30.,
     int_args=[("icy", 0)],
     u
   ),
   testcard_item
 ])
-
-# Spawn an ffmpeg encoder instance
-e = %ffmpeg(
-  # not sure if -r is correct here, maybe it is -vframes?
-  # -c:v libx264 -r 25 -s 1280x720 -b:v 2800k -preset fast -g 50 -flags:v +global_header
-  %video(
-    codec="libx264",
-    framerate=25,
-    width=1280,
-    height=720,
-    b="2800k",
-    g=50,
-    preset="fast",
-    flags="+global_header"
-  ),
-
-  # make sure `ac` matches `settings.frame.audio.channels`!
-  # make sure `ar` matches `settings.frame.audio.samplerate`!
-  # -c:a aac -ac 2 -ar 44100 -b:a 192k -flags:a +global_header
-  %audio(
-    codec="aac",
-    ac=2,
-    ar=44100,
-    b="192k",
-    flags="+global_header"
-  ),
-
-  # -f flv
-  format="flv",
-  # -flvflags no_duration_filesize
-  flvflags="no_duration_filesize"
-)
 
 st_key = string.trim(file.contents("secrets/bloo-stream-key"))
 st_url = "rtmp://stream.whatthe.blue/ingress/#{st_key}"
