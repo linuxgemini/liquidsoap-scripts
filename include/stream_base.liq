@@ -1,12 +1,12 @@
 #!/usr/bin/liquidsoap
 
-# 2ch @ 44.1 kHz
+# 2ch @ 48 kHz
 settings.frame.audio.channels := 2
-settings.frame.audio.samplerate := 44100
+settings.frame.audio.samplerate := 48000
 
-# 720p25
-settings.frame.video.width := 1280
-settings.frame.video.height := 720
+# 1080p25
+settings.frame.video.width := 1920
+settings.frame.video.height := 1080
 settings.frame.video.framerate := 25
 
 # include video.testsrc.smptehdbars_ebustereo
@@ -27,12 +27,12 @@ testcard_item = video.add_text.sdl(
 # Spawn an ffmpeg encoder instance
 e = %ffmpeg(
   # not sure if -r is correct here, maybe it is -vframes?
-  # -c:v libx264 -r 25 -s 1280x720 -b:v 2800k -preset fast -g 50 -flags:v +global_header
+  # -c:v libx264 -r 25 -s 1920x1080 -b:v 2800k -preset fast -g 50 -flags:v +global_header
   %video(
     codec="libx264",
     framerate=25,
-    width=1280,
-    height=720,
+    width=1920,
+    height=1080,
     b="2800k",
     g=50,
     preset="fast",
@@ -41,11 +41,11 @@ e = %ffmpeg(
 
   # make sure `ac` matches `settings.frame.audio.channels`!
   # make sure `ar` matches `settings.frame.audio.samplerate`!
-  # -c:a aac -ac 2 -ar 44100 -b:a 192k -flags:a +global_header
+  # -c:a aac -ac 2 -ar 48000 -b:a 192k -flags:a +global_header
   %audio(
     codec="aac",
     ac=2,
-    ar=44100,
+    ar=48000,
     b="192k",
     flags="+global_header"
   ),

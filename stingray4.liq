@@ -21,15 +21,14 @@ log.file.set(false)
 
 # Stingray Naturescape; although I consider it quite stable,
 # they do cue points for ad injection so it gets messy at times
-# ~~hence why I let it self_sync.~~
-# above line has been nullified due to the way Liquidsoap 2.3.x works
+# hence why I let it self_sync.
 u = string.trim(file.contents("consts/naturescape-lotus-link"))
 
 # stacked mksafe
 i = fallback(id="safe_stingray", track_sensitive=false, [
   input.ffmpeg(
     id="stingray_lotus",
-    self_sync=false,
+    self_sync=true,
     max_buffer=30.,
     int_args=[("icy", 0)],
     u
@@ -40,9 +39,8 @@ i = fallback(id="safe_stingray", track_sensitive=false, [
 st_key = string.trim(file.contents("secrets/bloo-stream-key"))
 st_url = "rtmp://stream.whatthe.blue/ingress/#{st_key}"
 
-# Stream to bloo's shite instance; clock is _sort of_ unstable so its gonna self_sync
+# Stream to bloo's service
 output.url(
-  self_sync=true,
   url=st_url,
   e,
   i
