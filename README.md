@@ -6,6 +6,8 @@ Mainly, this repo will be about re-streaming from other sources or generating te
 
 ## Requirements
 
+### System
+
 I'm currently running everything on a beefy Debian 12/bookworm VM with the following:
   - [`deb-multimedia` repository](https://www.deb-multimedia.org/) (just `bookworm` one) for FFmpeg and related libraries.
   - Debian's own `bookworm-backports` repository with a higher priority for keeping everything else at the Bleeding Edge™️:
@@ -26,7 +28,11 @@ I'm currently running everything on a beefy Debian 12/bookworm VM with the follo
   - Liquidsoap `.deb` files from [Liquidsoap Rolling Release 2.3.x](https://github.com/savonet/liquidsoap/releases/tag/rolling-release-v2.3.x)
     * Minimal packages are _not_ used.
 
+### Streaming target
+
 You also need a platform to stream to.
+
+### Rest of the fucking owl
 
 Remaining steps:
   - Clone this repository:
