@@ -12,14 +12,14 @@ settings.frame.video.framerate := 25
 # include video.testsrc.smptehdbars_ebustereo
 %include "testsrc.liq"
 
-testcard_item = mksafe(id="safe_testcard", video.testsrc.smptehdbars_ebustereo(id="testcard"))
+testcard_item = mksafe(id="safe_testcard", video.testsrc.ebu3373_ebustereo(id="testcard"))
 testcard_item = video.add_text.sdl(
   id="testcard_item-add_text",
   font="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-  size=32, x=380, y=160,
-  "linuxgemini media-streamer ops\
-   \nV: #{settings.frame.video.width()}x#{settings.frame.video.height()} @ #{settings.frame.video.framerate()}fps\
-   \nA: #{settings.frame.audio.channels()}ch @ #{settings.frame.audio.samplerate()}Hz\
+  size=32, x=300, y=650,
+  "linuxgemini media-streamer ops; \
+   V: #{settings.frame.video.width()}x#{settings.frame.video.height()} @ #{settings.frame.video.framerate()}fps (SDR); \
+   A: #{settings.frame.audio.channels()}ch @ #{settings.frame.audio.samplerate()}Hz\
   ",
   testcard_item
 )
