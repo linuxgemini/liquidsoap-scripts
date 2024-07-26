@@ -19,16 +19,10 @@ log.file.set(false)
 
 %include "include/stream_base.liq"
 
-# Stingray Naturescape; although I consider it quite stable,
-# they do cue points for ad injection so it gets messy at times
-# hence why I let it self_sync.
 u = string.trim(file.contents("consts/naturescape-lotus-link"))
-
-# stacked mksafe
 i = fallback(id="safe_stingray", track_sensitive=false, [
   input.ffmpeg(
     id="stingray_lotus",
-    self_sync=true,
     max_buffer=30.,
     int_args=[("icy", 0)],
     u
@@ -42,6 +36,7 @@ st_url = "rtmp://stream.whatthe.blue/ingress/#{st_key}"
 # Stream to bloo's service
 output.url(
   url=st_url,
+  self_sync=true,
   e,
   i
 )
