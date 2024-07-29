@@ -5,24 +5,40 @@ settings.frame.audio.channels := 2
 settings.frame.audio.samplerate := 48000
 
 # 1080p25
-settings.frame.video.width := 1920
-settings.frame.video.height := 1080
+let {px, vw, vh, rem, width, height} = video.canvas.virtual_10k.actual_1080p
+settings.frame.video.width := width
+settings.frame.video.height := height
 settings.frame.video.framerate := 25
 
-# include video.testsrc.smptehdbars_ebustereo
+# include custom test sources
 %include "testsrc.liq"
+%include "utils.liq"
 
-testcard_item = mksafe(id="safe_testcard", video.testsrc.ebu3373_ebustereo(id="testcard"))
-testcard_item = video.add_text.sdl(
+testcard_item = mksafe(
+  id="safe_testcard",
+  video.testsrc.ebu3373_ebustereo(id="base_testcard")
+)
+
+testcard_item = video.add_text(
   id="testcard_item-add_text",
   font="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-  size=32, x=300, y=650,
+  size=32,
+  x=300,
+  y=650,
   "linuxgemini media-streamer ops; \
    V: #{settings.frame.video.width()}x#{settings.frame.video.height()} @ #{settings.frame.video.framerate()}fps (SDR); \
    A: #{settings.frame.audio.channels()}ch @ #{settings.frame.audio.samplerate()}Hz\
   ",
   testcard_item
 )
+testcard_item = ref(call_generate_qr(testcard_item))
+
+thread.run(delay=10., every=30., {
+  request.destroy(qr_request())
+  qr_request := create_qr_request()
+
+  testcard_item := call_generate_qr(testcard_item())
+})
 
 # Spawn an ffmpeg encoder instance
 e = %ffmpeg(
@@ -55,3 +71,5 @@ e = %ffmpeg(
   # -flvflags no_duration_filesize
   flvflags="no_duration_filesize"
 )
+
+server.harbor()

@@ -13,5 +13,5 @@ st_url = "rtmp://stream.whatthe.blue/ingress/#{st_key}"
 output.url(
   url=st_url,
   e,
-  testcard_item
+  testcard_item()
 )
