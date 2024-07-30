@@ -12,12 +12,13 @@ settings.frame.video.framerate := 25
 
 # include custom test sources
 %include "testsrc.liq"
-#%include "utils.liq"
+%include "utils.liq"
 
 testcard_item = mksafe(
   id="safe_testcard",
   video.testsrc.ebu3373_ebustereo(id="base_testcard")
 )
+
 testcard_item = video.add_text(
   id="testcard_item-add_text",
   font="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
@@ -30,14 +31,14 @@ testcard_item = video.add_text(
   ",
   testcard_item
 )
+testcard_item = ref(call_generate_qr(testcard_item))
 
-#testcard_item = ref(call_generate_qr(testcard_item))
-#thread.run(delay=10., every=30., {
-#  request.destroy(qr_request())
-#  qr_request := create_qr_request()
-#
-#  testcard_item := call_generate_qr(testcard_item())
-#})
+thread.run(delay=10., every=30., {
+  request.destroy(qr_request())
+  qr_request := create_qr_request()
+
+  testcard_item := call_generate_qr(testcard_item())
+})
 
 # Spawn an ffmpeg encoder instance
 e = %ffmpeg(
@@ -71,4 +72,4 @@ e = %ffmpeg(
   flvflags="no_duration_filesize"
 )
 
-#server.harbor()
+server.harbor()

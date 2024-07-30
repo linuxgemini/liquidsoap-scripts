@@ -19,7 +19,7 @@ i = fallback(id="safe_nasa-uhd", track_sensitive=false, [
     int_args=[("icy", 0)],
     u
   ),
-  testcard_item
+  testcard_item()
 ])
 
 st_key = string.trim(file.contents("secrets/bloo-stream-key"))
