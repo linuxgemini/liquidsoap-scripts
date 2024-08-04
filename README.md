@@ -10,8 +10,16 @@ Mainly, this repo will be about re-streaming from other sources or generating te
 
 I'm currently running everything on a beefy Debian 12/bookworm VM with the following:
   - [`deb-multimedia` repository](https://www.deb-multimedia.org/) (just `bookworm` one) for FFmpeg and related libraries.
-  - Debian's own `bookworm-backports` repository with a higher priority for keeping everything else at the Bleeding Edge™️:
-    * To achieve this you can add a file to `/etc/apt/preferences.d/` like `/etc/apt/preferences.d/99prefer-backports` and add this config:
+    * To avoid complications, I pinned the repository with a higher priority. To achieve this, you can add a file to `/etc/apt/preferences.d/` like `/etc/apt/preferences.d/99prefer-dmo` and add this config:
+
+      ```
+      Package: *
+      Pin: release o=Unofficial Multimedia Packages,n=bookworm
+      Pin-Priority: 910
+      ```
+
+  - Debian's own `bookworm-backports` repository pinned with a higher priority for keeping everything else at the Bleeding Edge™️:
+    * To achieve this, you can add a file to `/etc/apt/preferences.d/` like `/etc/apt/preferences.d/99prefer-backports` and add this config:
 
       ```
       Package: *
@@ -32,7 +40,7 @@ I'm currently running everything on a beefy Debian 12/bookworm VM with the follo
 
 You also need a platform to stream to.
 
-### Rest of the fucking owl
+### Drawing the rest of the fucking owl
 
 Remaining steps:
   - Clone this repository:
