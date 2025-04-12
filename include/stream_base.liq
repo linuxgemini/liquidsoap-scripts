@@ -31,6 +31,16 @@ testcard_item = video.add_text(
   ",
   testcard_item
 )
+testcard_item = video.add_text(
+  id="testcard_item-add_text_2",
+  font="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+  size=32,
+  x=300,
+  y=545,
+  speed=100,
+  "this is a really professional stream, so high tech",
+  testcard_item
+)
 #testcard_item = ref(call_generate_qr(testcard_item))
 testcard_item = ref(testcard_item)
 
