@@ -16,7 +16,8 @@ settings.frame.video.framerate := 25
 
 testcard_item = mksafe(
   id="safe_testcard",
-  video.testsrc.ebu3373_ebustereo(id="base_testcard")
+  #video.testsrc.ebu3373_ebustereo(id="base_testcard")
+  video.testsrc.ebu3373_customident(id="base_testcard")
 )
 testcard_item = video.add_text(
   id="testcard_item-add_text",

@@ -38,7 +38,6 @@ def video.testsrc.smptehdbars_ebustereo(
 ) =
   v = video.testsrc.ffmpeg(id="video.testsrc.smptehdbars_ebustereo", max_buffer=max_buffer, pattern="smptehdbars")
   a = audio.testsrc_ebustereo(id="video.testsrc.smptehdbars_ebustereo", max_buffer=max_buffer)
-
   (source.mux.video(id=id, video=v, a) :
     source(video=canvas, audio=pcm(stereo))
   )
@@ -58,6 +57,25 @@ def video.testsrc.ebu3373_ebustereo(
   v_width = settings.frame.video.width()
   v_height = settings.frame.video.height()
   v = image(id="video.testsrc.ebu3373_ebustereo", width=v_width, height=v_height, "images/ebu_hdr-hlg_colour_bars_1920_1080_rgb444p16be_lzw.tif")
+
+  (source.mux.audio(id=id, audio=a, v) :
+    source(video=canvas, audio=pcm(stereo))
+  )
+end
+
+# Generate an EBU 3373 Testcard with custom ident.
+# @category Source / Video processing
+# @param ~id Force the value of the source ID.
+# @param ~max_buffer Maximum data buffer in seconds
+def video.testsrc.ebu3373_customident(
+  ~id=null(),
+  ~max_buffer=0.5
+) =
+  a = single(id="video.testsrc.ebu3373_customident", "sounds/testing_ident_mixdown.mp3")
+
+  v_width = settings.frame.video.width()
+  v_height = settings.frame.video.height()
+  v = image(id="video.testsrc.ebu3373_customident", width=v_width, height=v_height, "images/ebu_hdr-hlg_colour_bars_1920_1080_rgb444p16be_lzw.tif")
 
   (source.mux.audio(id=id, audio=a, v) :
     source(video=canvas, audio=pcm(stereo))
