@@ -20,9 +20,10 @@ log.file.set(false)
 %include "include/stream_base.liq"
 
 u = string.trim(file.contents("consts/holidayscapes-plexott-link"))
-i = fallback(id="safe_stingray", track_sensitive=false, [
+i = fallback(id="safe_stingray", [
   input.ffmpeg(
     id="stingray_ott",
+    self_sync=true,
     max_buffer=30.,
     int_args=[("icy", 0)],
     u
@@ -36,7 +37,6 @@ st_url = "rtmp://stream.whatthe.blue/ingress/#{st_key}"
 # Stream to bloo's service
 output.url(
   url=st_url,
-  self_sync=true,
   e,
   i
 )
