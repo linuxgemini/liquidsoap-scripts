@@ -66,10 +66,8 @@ end
 # Generate an EBU 3373 Testcard with custom ident.
 # @category Source / Video processing
 # @param ~id Force the value of the source ID.
-# @param ~max_buffer Maximum data buffer in seconds
 def video.testsrc.ebu3373_customident(
-  ~id=null(),
-  ~max_buffer=0.5
+  ~id=null()
 ) =
   a = single(id="video.testsrc.ebu3373_customident", "sounds/testing_ident_mixdown.mp3")
 
