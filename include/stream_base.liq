@@ -4,11 +4,11 @@
 settings.frame.audio.channels := 2       # update the encoder ac value when changed!
 settings.frame.audio.samplerate := 48000
 
-# 1080p25
+# 1080p50
 let {px, vw, vh, rem, width, height} = video.canvas.virtual_10k.actual_1080p
 settings.frame.video.width := width
 settings.frame.video.height := height
-settings.frame.video.framerate := 25
+settings.frame.video.framerate := 50
 
 # include custom test sources
 %include "testsrc.liq"
@@ -37,7 +37,7 @@ testcard_item = video.add_text(
   size=32,
   x=300,
   y=545,
-  speed=100,
+  speed=200,
   "this is a really professional stream, so high tech",
   testcard_item
 )
@@ -63,9 +63,9 @@ e = %ffmpeg(
     framerate=settings.frame.video.framerate(),
     width=settings.frame.video.width(),
     height=settings.frame.video.height(),
-    b="2800k",
-    g=50,
-    preset="fast",
+    b="3000k",
+    g=25,
+    preset="medium",
     flags="+global_header"
   ),
 
