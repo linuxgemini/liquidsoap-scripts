@@ -52,15 +52,7 @@ testcard_item = video.add_text(
   },
   testcard_item
 )
-#testcard_item = ref(call_generate_qr(testcard_item))
 testcard_item = ref(testcard_item)
-
-#thread.run(delay=10., every=30., {
-#  request.destroy(qr_request())
-#  qr_request := create_qr_request()
-#
-#  testcard_item := call_generate_qr(testcard_item())
-#})
 
 # Spawn an ffmpeg encoder instance
 e = %ffmpeg(
