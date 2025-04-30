@@ -41,6 +41,17 @@ testcard_item = video.add_text(
   "this is a really professional stream, so high tech",
   testcard_item
 )
+testcard_item = video.add_text(
+  id="testcard_item-add_text_3",
+  font="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+  size=32,
+  x=200,
+  y=830,
+  {
+    "#{get_current_time_as_utc_tz_string()}"
+  },
+  testcard_item
+)
 #testcard_item = ref(call_generate_qr(testcard_item))
 testcard_item = ref(testcard_item)
 
