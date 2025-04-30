@@ -1,7 +1,7 @@
 #!/usr/bin/liquidsoap
 
 # 2ch @ 48 kHz
-settings.frame.audio.channels := 2
+settings.frame.audio.channels := 2       # update the encoder ac value when changed!
 settings.frame.audio.samplerate := 48000
 
 # 1080p25
@@ -68,9 +68,9 @@ e = %ffmpeg(
   # -c:v libx264 -r 25 -s 1920x1080 -b:v 2800k -preset fast -g 50 -flags:v +global_header
   %video(
     codec="libx264",
-    framerate=25,
-    width=1920,
-    height=1080,
+    framerate=settings.frame.video.framerate(),
+    width=settings.frame.video.width(),
+    height=settings.frame.video.height(),
     b="2800k",
     g=50,
     preset="fast",
@@ -83,7 +83,7 @@ e = %ffmpeg(
   %audio(
     codec="aac",
     ac=2,
-    ar=48000,
+    ar=settings.frame.audio.samplerate(),
     b="192k",
     flags="+global_header"
   ),
