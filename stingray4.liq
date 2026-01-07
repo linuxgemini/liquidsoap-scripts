@@ -30,8 +30,8 @@ i = fallback(id="safe_stingray", track_sensitive=false, [
   testcard_item()
 ])
 
-st_key = string.trim(file.contents("secrets/chaos-stream-key"))
-st_url = "rtmp://chaos.stream/ingress/#{st_key}"
+st_key = string.trim(file.contents("secrets/psy-nexus-key"))
+st_url = "rtmp://psy.nexus/ingress/#{st_key}"
 
 # Stream to bloo's service
 output.url(

@@ -7,8 +7,8 @@ log.file.set(false)
 
 %include "include/stream_base.liq"
 
-st_key = string.trim(file.contents("secrets/chaos-stream-key"))
-st_url = "rtmp://chaos.stream/ingress/#{st_key}"
+st_key = string.trim(file.contents("secrets/psy-nexus-key"))
+st_url = "rtmp://psy.nexus/ingress/#{st_key}"
 
 output.url(
   url=st_url,
