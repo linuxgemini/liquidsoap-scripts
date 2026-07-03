@@ -5,7 +5,7 @@
 # @param ~id Force the value of the source ID.
 # @param ~max_buffer Maximum data buffer in seconds
 def audio.testsrc_ebustereo(
-  ~id=null(),
+  ~id=null,
   ~max_buffer=0.5
 ) =
   #TODO figure out why this doesnt work and loop over
@@ -33,7 +33,7 @@ end
 # @param ~id Force the value of the source ID.
 # @param ~max_buffer Maximum data buffer in seconds
 def video.testsrc.smptehdbars_ebustereo(
-  ~id=null(),
+  ~id=null,
   ~max_buffer=0.5
 ) =
   v = video.testsrc.ffmpeg(id="video.testsrc.smptehdbars_ebustereo", max_buffer=max_buffer, pattern="smptehdbars")
@@ -49,7 +49,7 @@ end
 # @param ~id Force the value of the source ID.
 # @param ~max_buffer Maximum data buffer in seconds
 def video.testsrc.ebu3373_ebustereo(
-  ~id=null(),
+  ~id=null,
   ~max_buffer=0.5
 ) =
   a = audio.testsrc_ebustereo(id="video.testsrc.ebu3373_ebustereo", max_buffer=max_buffer)
@@ -67,9 +67,28 @@ end
 # @category Source / Video processing
 # @param ~id Force the value of the source ID.
 def video.testsrc.ebu3373_customident(
-  ~id=null()
+  ~id=null
 ) =
   a = single(id="video.testsrc.ebu3373_customident", "sounds/testing_ident_mixdown.mp3")
+
+  v_width = settings.frame.video.width()
+  v_height = settings.frame.video.height()
+  v = image(id="video.testsrc.ebu3373_customident", width=v_width, height=v_height, "images/ebu_hdr-hlg_colour_bars_1920_1080_rgb444p16be_lzw.tif")
+
+  (source.mux.audio(id=id, audio=a, v) :
+    source(video=canvas, audio=pcm(stereo))
+  )
+end
+
+%include "hammertime.liq"
+
+# Generate an EBU 3373 Testcard with speaking clock.
+# @category Source / Video processing
+# @param ~id Force the value of the source ID.
+def video.testsrc.ebu3373_speakingclock(
+  ~id=null
+) =
+  a = mksafe(id="video.testsrc.ebu3373_customident", speaking_clock)
 
   v_width = settings.frame.video.width()
   v_height = settings.frame.video.height()
