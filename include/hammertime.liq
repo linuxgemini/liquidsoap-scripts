@@ -10,6 +10,9 @@ beat_file  = "#{base}/beat.flac"
 
 lead = 0.45
 
+# 1.0 = unchanged, 2.0 = +6 dB, 1.4 ≈ +3 dB, 0.5 = -6 dB
+volume = 1.0
+
 def vclip(cin, cout) =
   request.create(
     cue_in_metadata="liq_cue_in",
@@ -41,6 +44,8 @@ voice  = request.player(simultaneous=true)
 beat_q = request.queue(id="hammer_beat")
 
 speaking_clock = add(normalize=false, [mksafe(beat_q), mksafe(voice)])
+speaking_clock = amplify(volume, speaking_clock)
+#speaking_clock = limit(speaking_clock)
 
 prev = ref(-1)
 

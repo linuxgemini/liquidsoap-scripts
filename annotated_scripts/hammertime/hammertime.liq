@@ -56,6 +56,11 @@ beat_file  = "#{base}/beat.flac"
 # fits here; lower it if the clock sounds early, raise it if it is still late.
 lead = 0.45
 
+# Output gain multiplier. 1.0 = unchanged, 2.0 = +6 dB, 0.5 = -6 dB. The
+# beat+voice mix already peaks near 0 dBFS, so values >1 will clip loud spots
+# unless you also enable the limiter next to the audio graph below.
+volume = 1.0
+
 # Icecast target -- adjust to match your server.
 icecast_host     = "localhost"
 icecast_port     = 8000
@@ -118,6 +123,11 @@ beat_q = request.queue(id="hammer_beat")
 # mksafe() plays silence whenever a source is idle, so the mix never stalls.
 # normalize=false keeps the original full-level sum of speech over music.
 radio = add(normalize=false, [mksafe(beat_q), mksafe(voice)])
+
+# Output gain. Because the mix peaks near 0 dBFS, uncomment the limiter for a
+# loud boost without hard clipping (it catches peaks instead of squaring them).
+radio = amplify(volume, radio)
+#radio = limit(radio)
 
 # ---------------------------------------------------------------------------
 # Wall-clock scheduler (mirrors the original setInterval(playCheck, 50))
