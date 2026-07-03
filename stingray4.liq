@@ -33,7 +33,7 @@ i = fallback(id="safe_stingray", track_sensitive=false, [
 st_key = string.trim(file.contents("secrets/psy-nexus-key"))
 st_url = "rtmp://psy.nexus/ingress/#{st_key}"
 
-# Stream to bloo's service
+# Stream to psy.nexus
 output.url(
   url=st_url,
   self_sync=true,
