@@ -61,6 +61,14 @@ lead = 0.45
 # unless you also enable the limiter next to the audio graph below.
 volume = 1.0
 
+# If the machine ever stalls (a CPU/disk storm, power throttling, an
+# interactive console pause, sleep...), the streaming clock falls behind real
+# time. Rather than fast-forward through the whole backlog at high speed
+# (default tolerates up to 60 s!), reset after 10 s -- i.e. skip straight back
+# to "live" and reconnect the Icecast mount. For a clock, playing stale audio
+# fast is worse than a brief skip.
+settings.clock.max_latency := 10.
+
 # Icecast target -- adjust to match your server.
 icecast_host     = "localhost"
 icecast_port     = 8000
