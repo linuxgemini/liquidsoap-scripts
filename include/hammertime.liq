@@ -13,6 +13,10 @@ lead = 0.45
 # 1.0 = unchanged, 2.0 = +6 dB, 1.4 ≈ +3 dB, 0.5 = -6 dB
 volume = 1.0
 
+settings.clock.max_latency := 10.
+
+settings.decoder.priorities.ffmpeg := 0
+
 def vclip(cin, cout) =
   request.create(
     cue_in_metadata="liq_cue_in",
