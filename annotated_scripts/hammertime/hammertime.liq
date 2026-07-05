@@ -69,6 +69,11 @@ volume = 1.0
 # fast is worse than a brief skip.
 settings.clock.max_latency := 10.
 
+# Prefer native encoder/decoders over FFmpeg to reduce possible libffmpeg
+# overheads. FFmpeg is still used if the native encoder/decoder is missing/not
+# available or fails.
+settings.decoder.priorities.ffmpeg := 0
+
 # Icecast target -- adjust to match your server.
 icecast_host     = "localhost"
 icecast_port     = 8000
